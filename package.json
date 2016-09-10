@@ -53,6 +53,7 @@
   "scripts": {
     "build": "babel ./src/index.js --out-file ./index.js",
     "commit": "git-cz",
+    "prepublish": "npm run build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "exit 0"
   },
