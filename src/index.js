@@ -14,11 +14,11 @@ class Store extends BaseStore {
 
     AWS.config.setPromisesDependency( Promise );
 
-    const { accessKeyId, bucket, region, secretAccessKey } = config;
+    const { accessKeyId, bucket, region, secretAccessKey, assetHost } = config;
 
     this.accessKeyId = accessKeyId;
     this.bucket = bucket;
-    this.host = `https://s3${ region === 'us-east-1' ? '' : `-${ region }` }.amazonaws.com/${ bucket }`;
+    this.host = assetHost ? assetHost : `https://s3${ region === 'us-east-1' ? '' : `-${ region }` }.amazonaws.com/${ bucket }`;
     this.region = region;
     this.secretAccessKey = secretAccessKey;
 
