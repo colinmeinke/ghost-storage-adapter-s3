@@ -14,7 +14,7 @@ class Store extends BaseStore {
 
     AWS.config.setPromisesDependency( Promise );
 
-    const { accessKeyId, bucket, region, secretAccessKey, assetHost } = config;
+    const { accessKeyId, assetHost, bucket, region, secretAccessKey } = config;
 
     this.accessKeyId = accessKeyId;
     this.bucket = bucket;

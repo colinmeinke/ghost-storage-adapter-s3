@@ -17,10 +17,10 @@ storage: {
   active: 's3',
   s3: {
     accessKeyId: 'YOUR_ACCESS_KEY_ID',
+    assetHost: 'YOUR_OPTIONAL_CDN_URL',
     bucket: 'YOUR_BUCKET_NAME',
     region: 'YOUR_REGION_SLUG',
     secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-    assetHost: 'OPTIONAL_CDN_URL'
   },
 },
 ```
