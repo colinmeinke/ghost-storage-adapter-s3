@@ -4,10 +4,19 @@ An AWS S3 storage adapter for Ghost 0.10+
 
 ## Installation
 
+```bash
+# Install the module
+npm install ghost-storage-adapter-s3 --save
+
+# Create the adapter link file
+touch ./content/storage/s3/index.js
 ```
-npm install ghost-storage-adapter-s3
-mkdir -p ./content/storage
-cp -r ./node_modules/ghost-storage-adapter-s3 ./content/storage/s3
+
+Inside `./content/storage/s3/index.js` add the following code
+
+```javascript
+'use strict';
+module.exports = require('ghost-storage-adapter-s3');
 ```
 
 ## Configuration
