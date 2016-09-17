@@ -1,6 +1,6 @@
 # Ghost storage adapter S3
 
-An AWS S3 storage adapter for Ghost 0.10
+An AWS S3 storage adapter for Ghost 0.10+
 
 ## Installation
 
@@ -24,6 +24,10 @@ storage: {
   },
 },
 ```
+
+## Support
+
+This library has been tested with Ghost 0.10 and 0.11.
 
 ## License
 
