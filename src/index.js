@@ -21,8 +21,6 @@ class Store extends BaseStore {
     this.host = assetHost ? assetHost : `https://s3${ region === 'us-east-1' ? '' : `-${ region }` }.amazonaws.com/${ bucket }`;
     this.region = region;
     this.secretAccessKey = secretAccessKey;
-
-    this.delete( '4-2.jpg' );
   }
 
   delete ( fileName, targetDir ) {
