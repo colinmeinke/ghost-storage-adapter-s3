@@ -40,7 +40,7 @@ create a new branch for each pull request.
 git remote add upstream git@github.com:colinmeinke/ghost-storage-adapter-s3.git
 ```
 
-### Create a new branch
+#### Create a new branch
 
 `git checkout -b my-branch-name`
 
