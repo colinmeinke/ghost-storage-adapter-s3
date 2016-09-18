@@ -27,7 +27,7 @@ storage: {
 
 ## Support
 
-This library has been tested with Ghost 0.10 and 0.11.
+This library works with Ghost 0.10 and 0.11.
 
 ## License
 
