@@ -23,9 +23,8 @@ for discussion before you spend the time to submit a pull request.
 You should now be able to use the npm scripts to carry
 out some useful tasks:
 
-- Build Ghost: `npm run build`
-- Start Ghost: `npm run start`
-- Commit: `npm run commit`
+- `npm run build`
+- `npm run commit`
 
 For a full list checkout the
 [`package.json` file](.package.json).
