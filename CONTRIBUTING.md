@@ -80,7 +80,7 @@ git rebase master
 git push -u origin my-branch-name
 ```
 
-#### Create a pull request
+#### Submit your pull request
 
 [Follow Github's instructions](https://help.github.com/articles/creating-a-pull-request/).
 
