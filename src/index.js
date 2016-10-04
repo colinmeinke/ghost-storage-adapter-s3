@@ -14,17 +14,18 @@ class Store extends BaseStore {
 
     AWS.config.setPromisesDependency( Promise );
 
-    const { accessKeyId, assetHost, bucket, region, secretAccessKey } = config;
+    const { accessKeyId, assetHost, bucket, region, secretAccessKey, pathPrefix } = config;
 
     this.accessKeyId = accessKeyId;
     this.bucket = bucket;
     this.host = assetHost ? assetHost : `https://s3${ region === 'us-east-1' ? '' : `-${ region }` }.amazonaws.com/${ bucket }`;
     this.region = region;
     this.secretAccessKey = secretAccessKey;
+    this.pathPrefix = stripLeadingSlash(pathPrefix || '');
   }
 
   delete ( fileName, targetDir ) {
-    const directory = targetDir || super.getTargetDir();
+    const directory = targetDir || this.getTargetDir(this.pathPrefix);
 
     return new Promise(( resolve, reject ) => {
       return this.s3()
@@ -61,11 +62,11 @@ class Store extends BaseStore {
   }
 
   save ( image, targetDir ) {
-    const directory = targetDir || super.getTargetDir();
+    const directory = targetDir || this.getTargetDir(this.pathPrefix);
 
     return new Promise(( resolve, reject ) => {
       Promise.all([
-        super.getUniqueFileName( this, image, directory ),
+        this.getUniqueFileName( this, image, directory ),
         readFileAsync( image.path ),
       ]).then(([ fileName, file ]) => (
         this.s3()
