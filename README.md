@@ -19,6 +19,7 @@ storage: {
     accessKeyId: 'YOUR_ACCESS_KEY_ID',
     assetHost: 'YOUR_OPTIONAL_CDN_URL',
     bucket: 'YOUR_BUCKET_NAME',
+    pathPrefix: 'YOUR_OPTIONAL_BUCKET_SUBDIRECTORY',
     region: 'YOUR_REGION_SLUG',
     secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
   },
