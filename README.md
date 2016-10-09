@@ -21,9 +21,9 @@ storage: {
     bucket: 'YOUR_BUCKET_NAME',
     pathPrefix: 'YOUR_OPTIONAL_BUCKET_SUBDIRECTORY',
     region: 'YOUR_REGION_SLUG',
-    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-  },
-},
+    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY'
+  }
+}
 ```
 
 ## Support
