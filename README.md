@@ -6,7 +6,7 @@ An AWS S3 storage adapter for Ghost 0.10+
 
 ```
 npm install ghost-storage-adapter-s3
-mkdir -p ./content/storage
+mkdir -p ./content/storage/s3
 cp -r ./node_modules/ghost-storage-adapter-s3 ./content/storage/s3
 ```
 
