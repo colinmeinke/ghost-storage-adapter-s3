@@ -93,7 +93,20 @@ class Store extends BaseStore {
 
   serve () {
     return (req, res, next) => {
-      next()
+      this.s3()
+        .getObject({
+          Bucket: this.bucket,
+          Key: stripLeadingSlash(req.path)
+        }).on('httpHeaders', function(statusCode, headers, response) {
+                res.set(headers);
+            })
+            .createReadStream()
+            .on('error', function(err) {
+                res.status(404);
+                console.log(err + '\nkey: ' + stripLeadingSlash(req.path));
+                next();
+            })
+            .pipe(res);
     }
   }
 }
