@@ -1,13 +1,13 @@
 # Ghost storage adapter S3
 
-An AWS S3 storage adapter for Ghost 0.10+
+An AWS S3 storage adapter for Ghost 1.0+
 
 ## Installation
 
 ```
 npm install ghost-storage-adapter-s3
-mkdir -p ./content/storage
-cp -r ./node_modules/ghost-storage-adapter-s3 ./content/storage/s3
+mkdir -p ./content/adapters/storage
+cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
 ```
 
 ## Configuration
@@ -28,7 +28,7 @@ storage: {
 
 ## Support
 
-This library works with Ghost 0.10 and 0.11.
+This library works with Ghost 1.0.
 
 ## License
 
