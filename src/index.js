@@ -23,12 +23,16 @@ class Store extends BaseStore {
       secretAccessKey
     } = config
 
-    this.accessKeyId = accessKeyId
-    this.bucket = bucket
-    this.host = assetHost || `https://s3${region === 'us-east-1' ? '' : `-${region}`}.amazonaws.com/${bucket}`
-    this.pathPrefix = stripLeadingSlash(pathPrefix || '')
-    this.region = region
-    this.secretAccessKey = secretAccessKey
+    // Compatible with the aws-sdk's default environment variables
+    this.accessKeyId = process.env.AWS_ACCESS_KEY_ID || accessKeyId
+    this.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || secretAccessKey
+    this.region = process.env.AWS_DEFAULT_REGION || region
+
+    this.bucket = process.env.GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET || bucket
+
+    // Optional configurations
+    this.host = process.env.GHOST_STORAGE_ADAPTER_S3_ASSET_HOST || assetHost || `https://s3${region === 'us-east-1' ? '' : `-${this.region}`}.amazonaws.com/${this.bucket}`
+    this.pathPrefix = stripLeadingSlash(process.env.GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX || pathPrefix || '')
   }
 
   delete (fileName, targetDir) {
