@@ -29,6 +29,17 @@ storage: {
 }
 ```
 
+### Via environment variables
+
+```
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_DEFAULT_REGION
+GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET
+GHOST_STORAGE_ADAPTER_S3_ASSET_HOST  // optional
+GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX // optional
+```
+
 ## License
 
 [ISC](./LICENSE.md).
