@@ -114,10 +114,29 @@ class Store extends BaseStore {
     }
   }
 
-  read () {
-    /*
-     * Dummy function as ghost needs it
-     */
+  read (options) {
+    options = options || {};
+
+    return new Promise((resolve, reject) => {
+      // remove trailing slashes
+      let path = (options.path || '').replace(/\/$|\\$/, '');
+
+      // check if path is stored in s3 handled by us
+      if (!path.startsWith(this.host)) {
+        reject(false);
+      }
+
+      path = path.substring(this.host.length);
+
+      this.s3()
+        .getObject({
+          Bucket: this.bucket,
+          Key: stripLeadingSlash(path)
+        })
+        .promise()
+        .then((data) => resolve(data.Body))
+        .catch(() => reject(false))
+    })
   }
 }
 
