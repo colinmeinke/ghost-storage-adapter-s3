@@ -115,18 +115,18 @@ class Store extends BaseStore {
   }
 
   read (options) {
-    options = options || {};
+    options = options || {}
 
     return new Promise((resolve, reject) => {
       // remove trailing slashes
-      let path = (options.path || '').replace(/\/$|\\$/, '');
+      let path = (options.path || '').replace(/\/$|\\$/, '')
 
       // check if path is stored in s3 handled by us
       if (!path.startsWith(this.host)) {
-        reject(false);
+        reject(false)
       }
 
-      path = path.substring(this.host.length);
+      path = path.substring(this.host.length)
 
       this.s3()
         .getObject({
