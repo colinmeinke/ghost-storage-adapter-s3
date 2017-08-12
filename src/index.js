@@ -123,7 +123,7 @@ class Store extends BaseStore {
 
       // check if path is stored in s3 handled by us
       if (!path.startsWith(this.host)) {
-        reject(false)
+        reject(new Error(`${path} is not stored in s3`))
       }
 
       path = path.substring(this.host.length)
@@ -135,7 +135,7 @@ class Store extends BaseStore {
         })
         .promise()
         .then((data) => resolve(data.Body))
-        .catch(() => reject(false))
+        .catch(error => reject(error))
     })
   }
 }
