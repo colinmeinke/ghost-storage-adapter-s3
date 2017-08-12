@@ -107,7 +107,6 @@ class Store extends BaseStore {
             .createReadStream()
             .on('error', function (err) {
               res.status(404)
-              console.log(err + '\nkey: ' + stripLeadingSlash(req.path))
               next()
             })
             .pipe(res)
