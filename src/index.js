@@ -34,7 +34,7 @@ class Store extends BaseStore {
     // Optional configurations
     this.host = process.env.GHOST_STORAGE_ADAPTER_S3_ASSET_HOST || assetHost || `https://s3${this.region === 'us-east-1' ? '' : `-${this.region}`}.amazonaws.com/${this.bucket}`
     this.pathPrefix = stripLeadingSlash(process.env.GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX || pathPrefix || '')
-    this.endpoint = GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
+    this.endpoint = process.env.GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
   }
 
   delete (fileName, targetDir) {
@@ -113,7 +113,7 @@ class Store extends BaseStore {
             .createReadStream()
             .on('error', function (err) {
               res.status(404)
-              next()
+              next(err)
             })
             .pipe(res)
     }
