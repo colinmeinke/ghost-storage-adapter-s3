@@ -7,7 +7,7 @@ For Ghost 0.10.x and 0.11.x support check out
 
 ## Installation
 
-```
+```shell
 npm install ghost-storage-adapter-s3
 mkdir -p ./content/adapters/storage
 cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
@@ -15,16 +15,17 @@ cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
 
 ## Configuration
 
-```
-storage: {
-  active: 's3',
-  s3: {
-    accessKeyId: 'YOUR_ACCESS_KEY_ID',
-    assetHost: 'YOUR_OPTIONAL_CDN_URL',
-    bucket: 'YOUR_BUCKET_NAME',
-    pathPrefix: 'YOUR_OPTIONAL_BUCKET_SUBDIRECTORY',
-    region: 'YOUR_REGION_SLUG',
-    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY'
+```json
+"storage": {
+  "active": "s3",
+  "s3": {
+    "accessKeyId": "YOUR_ACCESS_KEY_ID",
+    "assetHost": "YOUR_OPTIONAL_CDN_URL",
+    "bucket": "YOUR_BUCKET_NAME",
+    "pathPrefix": "YOUR_OPTIONAL_BUCKET_SUBDIRECTORY",
+    "region": "YOUR_REGION_SLUG",
+    "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
+    "endpoint": "YOUR_OPTIONAL_ENDPOINT_URL (only needed for 3rd party S3 providers)"
   }
 }
 ```
@@ -38,6 +39,7 @@ AWS_DEFAULT_REGION
 GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET
 GHOST_STORAGE_ADAPTER_S3_ASSET_HOST  // optional
 GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX // optional
+GHOST_STORAGE_ADAPTER_S3_ENDPOINT // optional
 ```
 
 ## License
