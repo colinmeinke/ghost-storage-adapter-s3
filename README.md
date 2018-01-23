@@ -20,7 +20,7 @@ cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
   "active": "s3",
   "s3": {
     "accessKeyId": "YOUR_ACCESS_KEY_ID",
-    "assetHost": "YOUR_OPTIONAL_CDN_URL",
+    "assetHost": "YOUR_OPTIONAL_CDN_URL (See note below)",
     "bucket": "YOUR_BUCKET_NAME",
     "pathPrefix": "YOUR_OPTIONAL_BUCKET_SUBDIRECTORY",
     "region": "YOUR_REGION_SLUG",
@@ -29,6 +29,7 @@ cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
   }
 }
 ```
+Note: Be sure to include "//" or the appropriate protocol within your assetHost string/variable to ensure that your site's domain is not prepended to the CDN URL.
 
 ### Via environment variables
 
