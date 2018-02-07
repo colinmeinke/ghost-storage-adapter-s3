@@ -52,12 +52,12 @@ class Store extends BaseStore {
     })
   }
 
-  exists (fileName) {
+  exists (fileName, targetDir) {
     return new Promise((resolve, reject) => {
       return this.s3()
         .getObject({
           Bucket: this.bucket,
-          Key: stripLeadingSlash(fileName)
+          Key: stripLeadingSlash(join(targetDir, fileName))
         })
         .promise()
         .then(() => resolve(true))
