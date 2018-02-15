@@ -20,11 +20,11 @@ cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
   "active": "s3",
   "s3": {
     "accessKeyId": "YOUR_ACCESS_KEY_ID",
-    "assetHost": "YOUR_OPTIONAL_CDN_URL (See note below)",
-    "bucket": "YOUR_BUCKET_NAME",
-    "pathPrefix": "YOUR_OPTIONAL_BUCKET_SUBDIRECTORY",
-    "region": "YOUR_REGION_SLUG",
     "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
+    "region": "YOUR_REGION_SLUG",
+    "bucket": "YOUR_BUCKET_NAME",
+    "assetHost": "YOUR_OPTIONAL_CDN_URL (See note below)",
+    "pathPrefix": "YOUR_OPTIONAL_BUCKET_SUBDIRECTORY",
     "endpoint": "YOUR_OPTIONAL_ENDPOINT_URL (only needed for 3rd party S3 providers)"
   }
 }
