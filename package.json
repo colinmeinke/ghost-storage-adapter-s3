@@ -29,7 +29,7 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/colinmeinke/ghost-storage-adapter-s3/issues"
+    "url": "https://github.com/trong-nguyen/ghost-storage-adapter-s3/issues"
   },
   "config": {
     "commitizen": {
@@ -53,7 +53,7 @@
     "snazzy": "^5.0.0",
     "standard": "^8.3.0"
   },
-  "homepage": "https://github.com/colinmeinke/ghost-storage-adapter-s3#readme",
+  "homepage": "https://github.com/trong-nguyen/ghost-storage-adapter-s3#readme",
   "license": "ISC",
   "keywords": [
     "adapter",
@@ -66,7 +66,7 @@
   "name": "ghost-storage-adapter-s3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/colinmeinke/ghost-storage-adapter-s3.git"
+    "url": "https://github.com/trong-nguyen/ghost-storage-adapter-s3.git"
   },
   "scripts": {
     "build": "babel ./src/index.js --out-file ./index.js",
@@ -75,7 +75,11 @@
     "lint": "standard --verbose | snazzy",
     "prepublish": "npm run build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "exit 0"
+    "test": "exit 0",
+    "install-adapter-mkdist": "mkdir -p dist/storage/s3",
+    "install-adapter-copy": "cp ./package.json dist && cp ./index.js dist/storage/s3",
+    "install-adapter-dependencies": "npm install --production --prefix $PWD/dist",
+    "install-adapter": "npm run build && npm run install-adapter-mkdist && npm run install-adapter-copy && npm run install-adapter-dependencies && echo 'Done building adapter and dependencies! Copy content in ./dist to your ghost/content/adapters'"
   },
   "version": "0.0.0-semantically-released"
 }
