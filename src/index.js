@@ -106,32 +106,38 @@ class Store extends BaseStore {
       this.s3()
         .getObject({
           Bucket: this.bucket,
-          Key: stripLeadingSlash(req.path)
-        }).on('httpHeaders', function (statusCode, headers, response) {
+          Key: stripLeadingSlash(join(this.pathPrefix ||'', req.path))
+        })
+        .on('httpHeaders', function (statusCode, headers, response) {
           res.set(headers)
         })
-            .createReadStream()
-            .on('error', function (err) {
+        .createReadStream()
+        .on('error', function (err) {
               res.status(404)
               next(err)
             })
-            .pipe(res)
+        .pipe(res)
     }
   }
 
   read (options) {
     options = options || {}
+    const directory = this.pathPrefix || ''
 
     return new Promise((resolve, reject) => {
       // remove trailing slashes
       let path = (options.path || '').replace(/\/$|\\$/, '')
 
-      // check if path is stored in s3 handled by us
-      if (!path.startsWith(this.host)) {
-        reject(new Error(`${path} is not stored in s3`))
+      // console.log(path + this.host)
+
+      // check if path is stored in s3 then stripping it
+      if (path.startsWith(this.host)) {
+        path = path.substring(this.host.length)
+      } else {
+        // reject(new Error(`${path} is not stored in s3`))
+        path = join(directory, path)
       }
 
-      path = path.substring(this.host.length)
 
       this.s3()
         .getObject({
@@ -139,8 +145,12 @@ class Store extends BaseStore {
           Key: stripLeadingSlash(path)
         })
         .promise()
-        .then((data) => resolve(data.Body))
-        .catch(error => reject(error))
+        .then((data) => {
+            resolve(data.Body)
+        })
+        .catch(error => {
+            reject(error)
+        })
     })
   }
 }

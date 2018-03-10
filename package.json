@@ -4,6 +4,11 @@
     "email": "hello@colinmeinke.com",
     "url": "https://colinmeinke.com"
   },
+  "co-author": {
+    "name": "Trong Nguyen",
+    "email": "nguyentrong@gmail.com",
+    "url": "http://trongn.com"
+  },
   "babel": {
     "plugins": [
       "transform-object-rest-spread",
