@@ -5,6 +5,25 @@ An AWS S3 storage adapter for Ghost 1.x
 For Ghost 0.10.x and 0.11.x support check out
 [Ghost storage adapter s3 v1.3.0](https://github.com/colinmeinke/ghost-storage-adapter-s3/releases/tag/v1.3.0).
 
+## What's modified by trong-nguyen:
+
+1. Modified the behavior of this adapter when the files were previously stored locally and then moved to AWS S3: it proxies the request to S3 if the path is not recognized as s3 storage.
+
+2. Added the script `install-adapter` as a convenience for user to copy the script over to an already installed Ghost blog. You can either:
+
+```
+cp -r dist/node_modules/* ghost/path/content/adapters/node_modules &&
+cp -r dist/s3 ghost/path/content/adapters/storage/
+```
+
+or:
+
+```
+rsync dist ghost/path/content/adapters
+```
+
+The latter will not alter the current available directory content, which might have other adapters.s
+
 ## Installation
 
 ```shell
