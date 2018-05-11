@@ -21,7 +21,8 @@ class Store extends BaseStore {
       pathPrefix,
       region,
       secretAccessKey,
-      endpoint
+      endpoint,
+      serverSideEncryption
     } = config
 
     // Compatible with the aws-sdk's default environment variables
@@ -35,6 +36,7 @@ class Store extends BaseStore {
     this.host = process.env.GHOST_STORAGE_ADAPTER_S3_ASSET_HOST || assetHost || `https://s3${this.region === 'us-east-1' ? '' : `-${this.region}`}.amazonaws.com/${this.bucket}`
     this.pathPrefix = stripLeadingSlash(process.env.GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX || pathPrefix || '')
     this.endpoint = process.env.GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
+    this.serverSideEncryption = process.env.GHOST_STORAGE_ADAPTER_S3_SSE || serverSideEncryption || ''
   }
 
   delete (fileName, targetDir) {
@@ -85,19 +87,23 @@ class Store extends BaseStore {
       Promise.all([
         this.getUniqueFileName(image, directory),
         readFileAsync(image.path)
-      ]).then(([ fileName, file ]) => (
+      ]).then(([ fileName, file ]) => {
+        let config = {
+          ACL: 'public-read',
+          Body: file,
+          Bucket: this.bucket,
+          CacheControl: `max-age=${30 * 24 * 60 * 60}`,
+          ContentType: image.type,
+          Key: stripLeadingSlash(fileName)
+        }
+        if (this.serverSideEncryption !== '') {
+          config.ServerSideEncryption = this.serverSideEncryption
+        }
         this.s3()
-          .putObject({
-            ACL: 'public-read',
-            Body: file,
-            Bucket: this.bucket,
-            CacheControl: `max-age=${30 * 24 * 60 * 60}`,
-            ContentType: image.type,
-            Key: stripLeadingSlash(fileName)
-          })
+          .putObject(config)
           .promise()
           .then(() => resolve(`${this.host}/${fileName}`))
-      )).catch(error => reject(error))
+      }).catch(error => reject(error))
     })
   }
 
