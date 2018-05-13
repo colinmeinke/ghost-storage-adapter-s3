@@ -1,18 +1,24 @@
 import AWS from 'aws-sdk'
 import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
-import Promise, { promisify } from 'bluebird'
 import { readFile } from 'fs'
 
-const readFileAsync = promisify(readFile)
+const readFileAsync = function(filename) {
+  return new Promise(function(resolve, reject) {
+    readFile(filename, function(err, data) {
+      if (err) 
+        reject(err); 
+      else 
+        resolve(data);
+    });
+  });
+};
 
 const stripLeadingSlash = s => s.indexOf('/') === 0 ? s.substring(1) : s
 
 class Store extends BaseStore {
   constructor (config = {}) {
     super(config)
-
-    AWS.config.setPromisesDependency(Promise)
 
     const {
       accessKeyId,
@@ -47,10 +53,14 @@ class Store extends BaseStore {
         .deleteObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(directory, fileName))
+        }, (error, data) => {
+          if (error) {
+            resolve(false)
+            return;
+          } else {
+            resolve(true)
+          }
         })
-        .promise()
-        .then(() => resolve(true))
-        .catch(() => resolve(false))
     })
   }
 
@@ -60,10 +70,14 @@ class Store extends BaseStore {
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(targetDir, fileName))
+        }, (error, data) => {
+          if (error) {
+            resolve(false)
+            return;
+          } else {
+            resolve(true)
+          }
         })
-        .promise()
-        .then(() => resolve(true))
-        .catch(() => resolve(false))
     })
   }
 
@@ -84,7 +98,7 @@ class Store extends BaseStore {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
 
     return new Promise((resolve, reject) => {
-      Promise.all([
+      return Promise.all([
         this.getUniqueFileName(image, directory),
         readFileAsync(image.path)
       ]).then(([ fileName, file ]) => {
@@ -99,29 +113,36 @@ class Store extends BaseStore {
         if (this.serverSideEncryption !== '') {
           config.ServerSideEncryption = this.serverSideEncryption
         }
-        this.s3()
-          .putObject(config)
-          .promise()
-          .then(() => resolve(`${this.host}/${fileName}`))
-      }).catch(error => reject(error))
+
+        return this.s3()
+          .putObject(config, (error, data) => {
+            if (error) {
+              reject(error)
+              return;
+            } else {
+              resolve(`${this.host}/${fileName}`)
+            }
+          })
+      })
+      .catch(error => reject(error))
     })
   }
 
   serve () {
     return (req, res, next) => {
-      this.s3()
+      return this.s3()
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(req.path)
         }).on('httpHeaders', function (statusCode, headers, response) {
           res.set(headers)
         })
-            .createReadStream()
-            .on('error', function (err) {
-              res.status(404)
-              next(err)
-            })
-            .pipe(res)
+        .createReadStream()
+        .on('error', function (err) {
+          res.status(404)
+          next(err)
+        })
+        .pipe(res)
     }
   }
 
@@ -136,17 +157,20 @@ class Store extends BaseStore {
       if (!path.startsWith(this.host)) {
         reject(new Error(`${path} is not stored in s3`))
       }
-
       path = path.substring(this.host.length)
 
-      this.s3()
+      return this.s3()
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(path)
+        }, (error, data) => {
+          if (error) {
+            reject(error)
+            return;
+          } else {
+            resolve(data.Body)
+          }
         })
-        .promise()
-        .then((data) => resolve(data.Body))
-        .catch(error => reject(error))
     })
   }
 }
