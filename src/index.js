@@ -3,7 +3,7 @@ import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
 
-const readFileAsync = fp => new Promise((resolve, reject) => readFile(fp, (err, data) => err ? reject(err): resolve(data)))
+const readFileAsync = fp => new Promise((resolve, reject) => readFile(fp, (err, data) => err ? reject(err) : resolve(data)))
 const stripLeadingSlash = s => s.indexOf('/') === 0 ? s.substring(1) : s
 
 class Store extends BaseStore {
@@ -43,7 +43,7 @@ class Store extends BaseStore {
         .deleteObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(directory, fileName))
-        }, (err) => err ? resolve(false): resolve(true))
+        }, (err) => err ? resolve(false) : resolve(true))
     })
   }
 
@@ -53,7 +53,7 @@ class Store extends BaseStore {
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(targetDir, fileName))
-        }, (err) => err ? resolve(false): resolve(true))
+        }, (err) => err ? resolve(false) : resolve(true))
     })
   }
 
@@ -90,7 +90,7 @@ class Store extends BaseStore {
           config.ServerSideEncryption = this.serverSideEncryption
         }
         this.s3()
-          .putObject(config, (err, data) => err ? reject(err): resolve(`${this.host}/${fileName}`))
+          .putObject(config, (err, data) => err ? reject(err) : resolve(`${this.host}/${fileName}`))
       })
       .catch(err => reject(err))
     })
@@ -129,7 +129,7 @@ class Store extends BaseStore {
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(path)
-        }, (err, data) => err ? reject(err): resolve(data.Body))
+        }, (err, data) => err ? reject(err) : resolve(data.Body))
     })
   }
 }
