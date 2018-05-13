@@ -39,35 +39,21 @@ class Store extends BaseStore {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
 
     return new Promise((resolve, reject) => {
-      return this.s3()
+      this.s3()
         .deleteObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(directory, fileName))
-        }, (error, data) => {
-          if (error) {
-            resolve(false)
-            return;
-          } else {
-            resolve(true)
-          }
-        })
+        }, (err) => err ? resolve(false): resolve(true))
     })
   }
 
   exists (fileName, targetDir) {
     return new Promise((resolve, reject) => {
-      return this.s3()
+      this.s3()
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(join(targetDir, fileName))
-        }, (error, data) => {
-          if (error) {
-            resolve(false)
-            return;
-          } else {
-            resolve(true)
-          }
-        })
+        }, (err) => err ? resolve(false): resolve(true))
     })
   }
 
@@ -88,7 +74,7 @@ class Store extends BaseStore {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
 
     return new Promise((resolve, reject) => {
-      return Promise.all([
+      Promise.all([
         this.getUniqueFileName(image, directory),
         readFileAsync(image.path)
       ]).then(([ fileName, file ]) => {
@@ -103,37 +89,27 @@ class Store extends BaseStore {
         if (this.serverSideEncryption !== '') {
           config.ServerSideEncryption = this.serverSideEncryption
         }
-
-        return this.s3()
-          .putObject(config, (error, data) => {
-            if (error) {
-              reject(error)
-              return;
-            } else {
-              resolve(`${this.host}/${fileName}`)
-            }
-          })
+        this.s3()
+          .putObject(config, (err, data) => err ? reject(err): resolve(`${this.host}/${fileName}`))
       })
-      .catch(error => reject(error))
+      .catch(err => reject(err))
     })
   }
 
   serve () {
-    return (req, res, next) => {
-      return this.s3()
-        .getObject({
-          Bucket: this.bucket,
-          Key: stripLeadingSlash(req.path)
-        }).on('httpHeaders', function (statusCode, headers, response) {
-          res.set(headers)
-        })
-        .createReadStream()
-        .on('error', function (err) {
-          res.status(404)
-          next(err)
-        })
-        .pipe(res)
-    }
+    return (req, res, next) =>
+      this.s3()
+      .getObject({
+        Bucket: this.bucket,
+        Key: stripLeadingSlash(req.path)
+      })
+      .on('httpHeaders', (statusCode, headers, response) => res.set(headers))
+      .createReadStream()
+      .on('error', err => {
+        res.status(404)
+        next(err)
+      })
+      .pipe(res)
   }
 
   read (options) {
@@ -149,18 +125,11 @@ class Store extends BaseStore {
       }
       path = path.substring(this.host.length)
 
-      return this.s3()
+      this.s3()
         .getObject({
           Bucket: this.bucket,
           Key: stripLeadingSlash(path)
-        }, (error, data) => {
-          if (error) {
-            reject(error)
-            return;
-          } else {
-            resolve(data.Body)
-          }
-        })
+        }, (err, data) => err ? reject(err): resolve(data.Body))
     })
   }
 }
