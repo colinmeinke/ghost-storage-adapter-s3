@@ -3,17 +3,7 @@ import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
 
-const readFileAsync = function(filename) {
-  return new Promise(function(resolve, reject) {
-    readFile(filename, function(err, data) {
-      if (err) 
-        reject(err); 
-      else 
-        resolve(data);
-    });
-  });
-};
-
+const readFileAsync = fp => new Promise((resolve, reject) => readFile(fp, (err, data) => err ? reject(err): resolve(data)))
 const stripLeadingSlash = s => s.indexOf('/') === 0 ? s.substring(1) : s
 
 class Store extends BaseStore {
