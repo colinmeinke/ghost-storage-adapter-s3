@@ -7,6 +7,7 @@ import { readFile } from 'fs'
 const readFileAsync = promisify(readFile)
 
 const stripLeadingSlash = s => s.indexOf('/') === 0 ? s.substring(1) : s
+const stripEndingSlash = s => s.indexOf('/') === (s.length - 1) ? s.substring(0, s.length - 1) : s
 
 class Store extends BaseStore {
   constructor (config = {}) {
@@ -112,7 +113,7 @@ class Store extends BaseStore {
       this.s3()
         .getObject({
           Bucket: this.bucket,
-          Key: stripLeadingSlash(req.path)
+          Key: stripLeadingSlash(stripEndingSlash(this.pathPrefix) + req.path)
         }).on('httpHeaders', function (statusCode, headers, response) {
           res.set(headers)
         })
