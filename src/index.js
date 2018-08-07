@@ -22,7 +22,8 @@ class Store extends BaseStore {
       region,
       secretAccessKey,
       endpoint,
-      serverSideEncryption
+      serverSideEncryption,
+      forcePathStyle
     } = config
 
     // Compatible with the aws-sdk's default environment variables
