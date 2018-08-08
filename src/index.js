@@ -38,7 +38,7 @@ class Store extends BaseStore {
     this.pathPrefix = stripLeadingSlash(process.env.GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX || pathPrefix || '')
     this.endpoint = process.env.GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
     this.serverSideEncryption = process.env.GHOST_STORAGE_ADAPTER_S3_SSE || serverSideEncryption || ''
-    this.s3ForcePathStyle = (process.env.GHOST_STORAGE_ADAPTER_S3_FORCE_PATH_STYLE === 'true') || forcePathStyle || false
+    this.s3ForcePathStyle = Boolean(process.env.GHOST_STORAGE_ADAPTER_S3_FORCE_PATH_STYLE) || Boolean(forcePathStyle) || false
   }
 
   delete (fileName, targetDir) {
