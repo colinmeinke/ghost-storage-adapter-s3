@@ -23,7 +23,8 @@ class Store extends BaseStore {
       region,
       secretAccessKey,
       endpoint,
-      serverSideEncryption
+      serverSideEncryption,
+      forcePathStyle
     } = config
 
     // Compatible with the aws-sdk's default environment variables
@@ -38,6 +39,7 @@ class Store extends BaseStore {
     this.pathPrefix = stripLeadingSlash(process.env.GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX || pathPrefix || '')
     this.endpoint = process.env.GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
     this.serverSideEncryption = process.env.GHOST_STORAGE_ADAPTER_S3_SSE || serverSideEncryption || ''
+    this.s3ForcePathStyle = Boolean(process.env.GHOST_STORAGE_ADAPTER_S3_FORCE_PATH_STYLE) || Boolean(forcePathStyle) || false
   }
 
   delete (fileName, targetDir) {
@@ -73,7 +75,8 @@ class Store extends BaseStore {
       accessKeyId: this.accessKeyId,
       bucket: this.bucket,
       region: this.region,
-      secretAccessKey: this.secretAccessKey
+      secretAccessKey: this.secretAccessKey,
+      s3ForcePathStyle: this.s3ForcePathStyle
     }
     if (this.endpoint !== '') {
       options.endpoint = this.endpoint
