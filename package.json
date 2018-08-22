@@ -43,9 +43,10 @@
     "babel-preset-env": "^1.6.0",
     "commitizen": "^2.8.6",
     "cz-conventional-changelog": "^1.2.0",
-    "semantic-release": "^4.3.5",
+    "semantic-release": "^15.9.9",
     "snazzy": "^5.0.0",
-    "standard": "^8.3.0"
+    "standard": "^8.3.0",
+    "travis-deploy-once": "^5.0.2"
   },
   "homepage": "https://github.com/colinmeinke/ghost-storage-adapter-s3#readme",
   "license": "ISC",
@@ -68,8 +69,9 @@
     "fix": "standard --fix",
     "lint": "standard --verbose | snazzy",
     "prepublish": "npm run build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "exit 0"
+    "semantic-release": "semantic-release",
+    "test": "exit 0",
+    "travis-deploy-once": "travis-deploy-once"
   },
-  "version": "0.0.0-semantically-released"
+  "version": "0.0.0-development"
 }
