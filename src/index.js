@@ -24,7 +24,7 @@ class Store extends BaseStore {
     } = config
 
     // Compatible with the aws-sdk's default environment variables
-    this.accessKeyId =  ccessKeyId
+    this.accessKeyId = accessKeyId
     this.secretAccessKey = secretAccessKey
     this.region = process.env.AWS_DEFAULT_REGION || region
 
