@@ -66,13 +66,10 @@ class Store extends BaseStore {
       region: this.region,
       s3ForcePathStyle: this.s3ForcePathStyle
     }
-
+    
+    // Set credentials only if provided, falls back to AWS SDK's default provider chain
     if (this.accessKeyId && this.secretAccessKey) {
       options.credentials = new AWS.Credentials(this.accessKeyId, this.secretAccessKey)
-    } else {
-      // Use default provider chain to get credentials
-      // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CredentialProviderChain.html#defaultProviders-property
-      options.credentialProvider = new AWS.CredentialProviderChain()
     }
 
     if (this.endpoint !== '') {
