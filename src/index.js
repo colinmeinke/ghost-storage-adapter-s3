@@ -66,7 +66,7 @@ class Store extends BaseStore {
       region: this.region,
       s3ForcePathStyle: this.s3ForcePathStyle
     }
-    
+
     // Set credentials only if provided, falls back to AWS SDK's default provider chain
     if (this.accessKeyId && this.secretAccessKey) {
       options.credentials = new AWS.Credentials(this.accessKeyId, this.secretAccessKey)
