@@ -24,8 +24,8 @@ class Store extends BaseStore {
     } = config
 
     // Compatible with the aws-sdk's default environment variables
-    this.accessKeyId = process.env.AWS_ACCESS_KEY_ID || accessKeyId
-    this.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || secretAccessKey
+    this.accessKeyId = accessKeyId
+    this.secretAccessKey = secretAccessKey
     this.region = process.env.AWS_DEFAULT_REGION || region
 
     this.bucket = process.env.GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET || bucket
@@ -62,12 +62,16 @@ class Store extends BaseStore {
 
   s3 () {
     const options = {
-      accessKeyId: this.accessKeyId,
       bucket: this.bucket,
       region: this.region,
-      secretAccessKey: this.secretAccessKey,
       s3ForcePathStyle: this.s3ForcePathStyle
     }
+
+    // Set credentials only if provided, falls back to AWS SDK's default provider chain
+    if (this.accessKeyId && this.secretAccessKey) {
+      options.credentials = new AWS.Credentials(this.accessKeyId, this.secretAccessKey)
+    }
+
     if (this.endpoint !== '') {
       options.endpoint = this.endpoint
     }
