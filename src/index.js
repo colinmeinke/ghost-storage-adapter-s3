@@ -20,7 +20,8 @@ class Store extends BaseStore {
       secretAccessKey,
       endpoint,
       serverSideEncryption,
-      forcePathStyle
+      forcePathStyle,
+      acl
     } = config
 
     // Compatible with the aws-sdk's default environment variables
@@ -36,6 +37,7 @@ class Store extends BaseStore {
     this.endpoint = process.env.GHOST_STORAGE_ADAPTER_S3_ENDPOINT || endpoint || ''
     this.serverSideEncryption = process.env.GHOST_STORAGE_ADAPTER_S3_SSE || serverSideEncryption || ''
     this.s3ForcePathStyle = Boolean(process.env.GHOST_STORAGE_ADAPTER_S3_FORCE_PATH_STYLE) || Boolean(forcePathStyle) || false
+    this.acl = process.env.GHOST_STORAGE_ADAPTER_S3_ACL || acl || 'public-read'
   }
 
   delete (fileName, targetDir) {
@@ -87,7 +89,7 @@ class Store extends BaseStore {
         readFileAsync(image.path)
       ]).then(([ fileName, file ]) => {
         let config = {
-          ACL: 'public-read',
+          ACL: this.acl,
           Body: file,
           Bucket: this.bucket,
           CacheControl: `max-age=${30 * 24 * 60 * 60}`,
