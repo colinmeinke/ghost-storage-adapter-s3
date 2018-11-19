@@ -28,6 +28,7 @@ cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
     "endpoint": "YOUR_OPTIONAL_ENDPOINT_URL (only needed for 3rd party S3 providers)",
     "serverSideEncryption": "YOUR_OPTIONAL_SSE (See note 2 below)",
     "forcePathStyle": true,
+    "acl": "YOUR_OPTIONAL_ACL (See note 4 below)",
   }
 }
 ```
@@ -36,6 +37,8 @@ Note 1: Be sure to include "//" or the appropriate protocol within your assetHos
 Note 2: if your s3 bucket enforces SSE use serverSideEncryption with the [appropriate supported](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property) value.
 
 Note 3: if your s3 providers requires path style you can enable it with `forcePathStyle`
+
+Note 4: if you use CloudFront the object ACL does not need to be set to "public-read"
 
 ### Via environment variables
 
@@ -49,6 +52,7 @@ GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX // optional
 GHOST_STORAGE_ADAPTER_S3_ENDPOINT // optional
 GHOST_STORAGE_ADAPTER_S3_SSE // optional
 GHOST_STORAGE_ADAPTER_S3_FORCE_PATH_STYLE // optional
+GHOST_STORAGE_ADAPTER_S3_ACL // optional
 ```
 
 ## AWS Configuration
