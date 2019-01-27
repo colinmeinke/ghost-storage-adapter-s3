@@ -133,4 +133,4 @@ Finally, in your configuration, use the subdomain for the CloudFront distributio
 
 ## License
 
-[ISC](./LICENSE.md).
+[ISC](./LICENSE.md)
