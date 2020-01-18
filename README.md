@@ -7,10 +7,15 @@ For Ghost 0.10.x and 0.11.x support check out
 
 ## Installation
 
+In the Ghost folder:
+
 ```shell
-npm install ghost-storage-adapter-s3
 mkdir -p ./content/adapters/storage
-cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
+cd ./content/adapters/storage
+git clone https://github.com/colinmeinke/ghost-storage-adapter-s3.git s3
+cd s3
+git checkout v2.8.0
+npm install
 ```
 
 ## Configuration
