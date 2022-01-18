@@ -37,6 +37,7 @@
   },
   "description": "An AWS S3 storage adapter for Ghost 0.10+",
   "devDependencies": {
+    "@types/node": "*",
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
