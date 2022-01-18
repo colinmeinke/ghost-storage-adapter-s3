@@ -44,7 +44,6 @@
     "babel-preset-env": "^1.7.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "glob-parent": "^5.1.2",
     "semantic-release": "^19.0.2",
     "snazzy": "^9.0.0",
     "standard": "^16.0.4"
