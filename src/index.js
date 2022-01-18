@@ -90,8 +90,8 @@ class Store extends BaseStore {
       Promise.all([
         this.getUniqueFileName(image, directory),
         readFileAsync(image.path)
-      ]).then(([ fileName, file ]) => {
-        let config = {
+      ]).then(([fileName, file]) => {
+        const config = {
           ACL: this.acl,
           Body: file,
           Bucket: this.bucket,
@@ -105,7 +105,7 @@ class Store extends BaseStore {
         this.s3()
           .putObject(config, (err, data) => err ? reject(err) : resolve(`${this.host}/${fileName}`))
       })
-      .catch(err => reject(err))
+        .catch(err => reject(err))
     })
   }
 
