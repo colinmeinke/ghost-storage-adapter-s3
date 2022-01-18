@@ -43,7 +43,7 @@
     "babel-preset-env": "^1.6.0",
     "commitizen": "^2.8.6",
     "cz-conventional-changelog": "^1.2.0",
-    "semantic-release": "^15.9.9",
+    "semantic-release": "^17.2.3",
     "snazzy": "^5.0.0",
     "standard": "^8.3.0",
     "travis-deploy-once": "^5.0.2"
