@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk'
+import * as AWS from '@aws-sdk/client-s3'
 import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'

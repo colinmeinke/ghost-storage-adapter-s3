@@ -32,12 +32,11 @@
     }
   },
   "dependencies": {
-    "aws-sdk": "^2.1058.0",
+    "@aws-sdk/client-s3": "^3.47.0",
     "ghost-storage-base": "1.0.0"
   },
   "description": "An AWS S3 storage adapter for Ghost 0.10+",
   "devDependencies": {
-    "@types/node": "^17.0.9",
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
