@@ -69,7 +69,7 @@ In the permissions, select Bucket Policy and use the policy generator with the f
 - Effect: **Allow**
 - Principal: *
 - AWS Service: **Amazon S3**
-- Actions: **GetBucket**
+- Actions: **GetObject**
 - Amazon Resource Name (ARN): *your bucket's ARN, which you can get on its Bucket Policy page*
 
 Generate the policy, copy it, then paste it in the Bucket policy editor and save.
