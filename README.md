@@ -9,8 +9,8 @@ For Ghost 0.10.x and 0.11.x support check out
 
 ```shell
 npm install ghost-storage-adapter-s3
-mkdir -p ./content/adapters/storage
-cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/storage/s3
+mkdir -p ./content/adapters/s3
+cp -r ./node_modules/ghost-storage-adapter-s3 ./content/adapters/s3
 ```
 
 ## Configuration
