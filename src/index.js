@@ -1,4 +1,6 @@
-import {S3} from '@aws-sdk/client-s3';
+import { S3Client } from '@aws-sdk/client-s3';
+import { fromNodeProviderChain } from '@aws-sdk/credential-providers';
+
 import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
@@ -8,7 +10,7 @@ const stripLeadingSlash = s => s.indexOf('/') === 0 ? s.substring(1) : s
 const stripEndingSlash = s => s.indexOf('/') === (s.length - 1) ? s.substring(0, s.length - 1) : s
 
 class Store extends BaseStore {
-  constructor (config = {}) {
+  constructor(config = {}) {
     super(config)
 
     const {
@@ -42,7 +44,7 @@ class Store extends BaseStore {
     this.acl = process.env.GHOST_STORAGE_ADAPTER_S3_ACL || acl || 'public-read'
   }
 
-  delete (fileName, targetDir) {
+  delete(fileName, targetDir) {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
 
     return new Promise((resolve, reject) => {
@@ -54,7 +56,7 @@ class Store extends BaseStore {
     })
   }
 
-  exists (fileName, targetDir) {
+  exists(fileName, targetDir) {
     return new Promise((resolve, reject) => {
       this.s3()
         .getObject({
@@ -64,7 +66,7 @@ class Store extends BaseStore {
     })
   }
 
-  s3 () {
+  s3() {
     const options = {
       bucket: this.bucket,
       region: this.region,
@@ -78,22 +80,24 @@ class Store extends BaseStore {
         accessKeyId: this.accessKeyId,
         secretAccessKey: this.secretAccessKey,
       }
+    } else {
+      options.credentials = fromNodeProviderChain();
     }
 
     if (this.endpoint !== '') {
       options.endpoint = this.endpoint
     }
-    return new S3(options)
+    return new S3Client(options)
   }
 
-  save (image, targetDir) {
+  save(image, targetDir) {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
 
     return new Promise((resolve, reject) => {
       Promise.all([
         this.getUniqueFileName(image, directory),
         readFileAsync(image.path)
-      ]).then(([ fileName, file ]) => {
+      ]).then(([fileName, file]) => {
         let config = {
           ACL: this.acl,
           Body: file,
@@ -108,11 +112,11 @@ class Store extends BaseStore {
         this.s3()
           .putObject(config, (err, data) => err ? reject(err) : resolve(`${this.host}/${fileName}`))
       })
-      .catch(err => reject(err))
+        .catch(err => reject(err))
     })
   }
 
-  serve () {
+  serve() {
     return (req, res, next) =>
       this.s3()
         .getObject({
@@ -128,7 +132,7 @@ class Store extends BaseStore {
         .pipe(res)
   }
 
-  read (options) {
+  read(options) {
     options = options || {}
 
     return new Promise((resolve, reject) => {

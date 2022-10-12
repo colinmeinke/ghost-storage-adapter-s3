@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.186.0",
+    "@aws-sdk/credential-providers": "^3.186.0",
     "ghost-storage-base": "0.0.1"
   },
   "description": "An AWS S3 storage adapter for Ghost 0.10+",
