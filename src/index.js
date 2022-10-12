@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk'
+import {S3} from '@aws-sdk/client-s3';
 import BaseStore from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
@@ -74,13 +74,16 @@ class Store extends BaseStore {
 
     // Set credentials only if provided, falls back to AWS SDK's default provider chain
     if (this.accessKeyId && this.secretAccessKey) {
-      options.credentials = new AWS.Credentials(this.accessKeyId, this.secretAccessKey)
+      options.credentials = {
+        accessKeyId: this.accessKeyId,
+        secretAccessKey: this.secretAccessKey,
+      }
     }
 
     if (this.endpoint !== '') {
       options.endpoint = this.endpoint
     }
-    return new AWS.S3(options)
+    return new S3(options)
   }
 
   save (image, targetDir) {
